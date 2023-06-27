@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybatis_encrypt_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+logging:
+  level:
+    top.aceofspades: trace
+mybatis-dbfield-encrypt:
+  enable: true
+  default-cipher-instance: aes
+  cipher-instances:
+    - id: aes
+      props:
+        key: d79d9f0bf41bf14d6e09271847c60c25
+      class-name: top.aceofspades.mybatis.dbfield.encrypt.cipher.AesCipher
+    - id: phone-aes
+      props:
+        key: 33cc4765cab81496c1ed92d9b11058a4
+      class-name: top.aceofspades.mybatis.dbfield.encrypt.cipher.AesCipher
+  sql-parse-encrypt-table-columns:
+    person:
+      - column: company_code
+        cipherInstance: aes

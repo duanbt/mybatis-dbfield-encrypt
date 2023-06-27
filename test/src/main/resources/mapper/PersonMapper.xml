@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.aceofspades.mybatis.dbfield.encrypt.test.mapper.PersonMapper">
+    <select id="queryListByIdentityIn1" resultType="top.aceofspades.mybatis.dbfield.encrypt.test.entity.Person">
+        select *
+        from person
+        <where>
+            identity in
+            <foreach collection="query.personList" open="(" separator="," close=")" item="item">
+                #{item.identity}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="queryListByIdentityIn2" resultType="top.aceofspades.mybatis.dbfield.encrypt.test.entity.Person">
+        select *
+        from person
+        <where>
+            identity in
+            <foreach collection="query.identityList" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="queryListByIdentityIn3" resultType="top.aceofspades.mybatis.dbfield.encrypt.test.entity.Person">
+        select *
+        from person
+        where find_in_set(identity, #{query.identityList, typeHandler=top.aceofspades.mybatis.dbfield.encrypt.test.typehandler.List2StringHandler}) > 0
+    </select>
+
+    <select id="queryListByIdentityIn4" resultType="top.aceofspades.mybatis.dbfield.encrypt.test.entity.Person">
+        select *
+        from person
+        <where>
+            identity in
+            <foreach collection="identityList" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="queryListByCompanyCodeIn1" resultType="top.aceofspades.mybatis.dbfield.encrypt.test.entity.Person">
+        select *
+        from person where company_code in
+        <foreach collection="companyCodeList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <insert id="batchInsertBySql">
+        INSERT INTO person (id, name, identity, phone_number, company_code)
+        VALUES
+        <foreach collection="addList" separator="," item="item">
+            (#{item.id}, #{item.name}, #{item.identity}, #{item.phoneNumber}, #{item.companyCode})
+        </foreach>
+    </insert>
+
+    <update id="updateCompanyCodeByCompanyCodeIn">
+        update person
+        set company_code = #{newCompanyCode}
+        where company_code in
+        <foreach collection="oldCompanyCodeList" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </update>
+
+    <delete id="deleteByCompanyCodeIn">
+        delete
+        from person where company_code in
+        <foreach collection="companyCodeList" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <resultMap id="companyPerson" type="top.aceofspades.mybatis.dbfield.encrypt.test.pojo.CompanyPerson">
+        <id property="companyCode" column="company_code"/>
+        <collection property="personList" ofType="top.aceofspades.mybatis.dbfield.encrypt.test.entity.Person" autoMapping="true" columnPrefix="person_"/>
+    </resultMap>
+
+    <select id="listCompanyPerson" resultMap="companyPerson">
+        select company.company_code,
+               person.id as person_id,
+               person.name as person_name,
+               person.identity as person_identity,
+               person.phone_number as person_phone_number,
+               person.company_code as person_company_code
+        from (select company_code from person group by company_code) as company
+                 left join person on person.company_code = company.company_code
+    </select>
+</mapper>
