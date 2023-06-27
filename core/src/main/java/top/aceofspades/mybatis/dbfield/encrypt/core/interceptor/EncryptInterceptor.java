@@ -287,6 +287,9 @@ public class EncryptInterceptor implements Interceptor {
                             isMultiString.compareAndSet(false, true);
                             return cipher.encrypt((String) o);
                         } else {
+                            if (o instanceof Map) {
+                                encryptMultiString(encryptAnnotation, cipher, o);
+                            }
                             return o;
                         }
                     })

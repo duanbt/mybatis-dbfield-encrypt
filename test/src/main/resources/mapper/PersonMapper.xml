@@ -89,4 +89,12 @@
         from (select company_code from person group by company_code) as company
                  left join person on person.company_code = company.company_code
     </select>
+
+    <insert id="batchInsertMapBySql">
+        INSERT INTO person (id, name, identity, phone_number, company_code)
+        VALUES
+        <foreach collection="addList" separator="," item="item">
+            (#{item.id}, #{item.name}, #{item.identity}, #{item.phoneNumber}, #{item.companyCode})
+        </foreach>
+    </insert>
 </mapper>

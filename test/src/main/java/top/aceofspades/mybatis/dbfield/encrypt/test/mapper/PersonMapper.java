@@ -98,4 +98,9 @@ public interface PersonMapper extends BaseMapper<Person> {
     })
     @Select("select id, name, identity, phone_number as phoneNumber, company_code as companyCode from person where company_code = #{companyCode}")
     List<Map<String, Object>> queryListMapByCompanyCode(@Encrypt @Param("companyCode") String companyCode);
+
+
+    void batchInsertMapBySql(@Encrypt(map = {@MapCrypt(key = {"identity", "companyCode"}), @MapCrypt(key = "phoneNumber", cipherInstance = "phone-aes"),})
+                             @Param("addList")
+                                     List<Map<String, Object>> addList);
 }

@@ -399,4 +399,25 @@ class MybatisDbfieldEncryptTest {
         Assertions.assertTrue(() -> people.size() == 2
                 && people.stream().allMatch(person -> person.get("companyCode").equals("company1")));
     }
+
+    @Test
+    void test31() {
+        String companyCode = "company_test";
+        List<Map<String, Object>> addList = new ArrayList<>();
+        int insertCount = 5;
+        for (int i = 0; i < insertCount; i++) {
+            Map<String, Object> add = new HashMap<>();
+            add.put("id", IdUtil.getSnowflakeNextIdStr());
+            add.put("name", "name_test" + i);
+            add.put("identity", "id_test" + i);
+            add.put("phoneNumber", "phone_test" + i);
+            add.put("companyCode", companyCode);
+            addList.add(add);
+        }
+        personMapper.batchInsertMapBySql(addList);
+        List<Person> people = personMapper.queryListByCompanyCode(companyCode);
+        Assertions.assertTrue(() -> people.size() == insertCount
+                && people.stream().allMatch(person -> person.getCompanyCode().equals(companyCode))
+        );
+    }
 }
