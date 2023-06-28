@@ -134,3 +134,6 @@ class MybatisDbfieldEncryptTest {
 
 参考AesCipher的实现，继承AbstractCipher实现相关方法即可
 
+## 注意
+- 加密过程会改变原始对象中的值
+
