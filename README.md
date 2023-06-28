@@ -7,6 +7,7 @@
 - mapper解密支持：对象字段注解解密，其他返回值注解解密(String, List<String>, Map<String,?>, List<Map<String, ?>>)
 - 兼容性：兼容mybatis-plus queryWrapper查询条件(通过sql解析参数加密)，兼容分页插件
 - 支持多种加密算法(可扩展)，支持不同字段使用不同的加密算法和密钥
+- 仅支持加密列的 =, !=, in 条件查询
 
 ## 实现原理
 
