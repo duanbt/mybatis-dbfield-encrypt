@@ -1,6 +1,5 @@
 package top.aceofspades.mybatis.dbfield.encrypt.core.annotation;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -14,7 +13,7 @@ import static top.aceofspades.mybatis.dbfield.encrypt.core.cipher.CipherInstance
  * @create 2023-06-27 14:20
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({})
 public @interface MapCrypt {
 
     /**
