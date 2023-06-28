@@ -15,6 +15,7 @@
 - 拦截Executor的update和query方法，进行mapper方法参数注解解密
 - 拦截Executor的query方法进行查询语句的sql解析参数加密
 - 拦截StatementHandler的parameterize方法进行非查询语句的sql解析参数加密
+- 基于jsqlparser实现sql解析参数加密
 
 解密：
 
@@ -28,8 +29,8 @@
 
 <dependency>
     <groupId>top.aceofspades</groupId>
-    <artifactId>mybatis-dbfield-encrypt-core</artifactId>
-    <version>${project.version}</version>
+    <artifactId>mybatis-dbfield-encrypt-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -38,6 +39,7 @@
 <dependency>
     <groupId>top.aceofspades</groupId>
     <artifactId>mybatis-dbfield-encrypt-cipher-aes</artifactId>
+    <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 
