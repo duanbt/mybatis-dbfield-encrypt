@@ -39,8 +39,14 @@ import java.util.stream.Collectors;
 
 /**
  * 查询的 注解识别加密和sql参数加密 拦截 Executor#query
+ * 拦截时机选择原因：mybatis-plus的分页插件拦截了Executor#query，因此必须在分页插件执行之前加密参数
+ * <p>
  * 更新的 注解识别加密 拦截 Executor#update
+ * 拦截时机选择原因：与查询的注解识别加密保持一致
+ * <p>
  * 更新的 sql参数加密 拦截 StatementHandler#parameterize
+ * 拦截时机选择原因：拦截 Executor#update实现不了where中foreach标签条件的加密，foreach标签参数在boundSql对象中，而在调用Executor#update时boundSql对象还没生成，
+ * 因此得在boundSql对象生成之后再执行加密，选择StatementHandler#parameterize之前拦截
  *
  * @author duanbt
  * @create 2023-06-01 18:28
